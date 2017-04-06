@@ -1,7 +1,6 @@
 {
   "name": "fcc-filemetadata-api",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "test"
@@ -12,5 +11,15 @@
     "express": "^4.15.2",
     "mongoose": "^4.9.3",
     "multer": "^1.3.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashishdutta007/fcc-filemetadata-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ashishdutta007/fcc-filemetadata-api/issues"
+  },
+  "homepage": "https://github.com/ashishdutta007/fcc-filemetadata-api#readme",
+  "description": ""
 }
