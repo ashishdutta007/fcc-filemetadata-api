@@ -1,4 +1,3 @@
-//Import express module
 var express = require('express');
 //Import multer module
 var multer = require('multer');
@@ -18,9 +17,12 @@ var storage = multer.diskStorage({
     }
 });
 
+//In-memory storage of uploaded files
+var memstorage = multer.memoryStorage();
+
 //Create multer middleware with storage options
 //without the options object the files will be kept in memory
-var upload = multer({ storage: storage });
+var uploadMdlwr = multer({ storage: memstorage });
 
 //Logging all incoming requests
 app.use('/', function(request, response, next) {
@@ -40,13 +42,15 @@ app.use('/', express.static('client'));
 
 //post endpoint
 //pass every request to this endpoint via multer middleware
-app.post('/upload', upload.single('data'), function(request, response) {
+app.post('/upload', uploadMdlwr.single('data'), function(request, response) {
+    console.log('Inside file upload middleware');
     request.on('error', function(error) {
         return console.log('Error occurred', error);
     });
     response.on('error', function(error) {
         return console.log('Error occurred', error);
     });
+    console.log(request.file);
     //check file availability
     if (request.file) {
         console.log(request.file.originalname);
