@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>File Metadata Microservice</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h4>Upload a file using the form below</h4>
+    <hr/>
+    <form method="post" enctype="multipart/form-data" action="/upload">
+        <input type="file" name="file-input" id="file-input" enctype="multipart/form-data">
+        <br/>
+        <button type="submit" id="submit-upload">Upload</button>
+    </form>
+    <div id="result"></div>
+    <!-- The result will be added here -->
+    <script src="client.js"></script>
+</body>
+
+</html>
