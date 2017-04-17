@@ -1,69 +1,34 @@
 console.log('Inside client.js');
 
-//On 'click'(submit) event upload file
-/*$("#uploadForm").submit(function(error) {
-    console.log("Inside submit event");
-    //Get files from input[type='file'] to upload
-    var file = $("#file-input").files;
-    if (error) {
-        return console.log('Error occurred', error);
-    } else {
-        console.log('Inside ajax request');
-        $.ajax({
-                url: '/upload',
-                type: 'POST',
-                dataType: 'json',
-                data: formdata,
-                success: function(data) {
-                    console.log(data);
-                    console.log("ajax success");
-                }
-            })
-            .done(function() {
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
-    }
-});
-*/
-
+//Client script to upload form on submit
 $("#uploadForm").on('submit', function(event) {
-    console.log('Inside form submission');
-    //Prevent default behaviour on the event
-    //So as to use ajax
+    console.log('Inside on submit form submission');
+
+    //Prevent default behaviour on the event, to use ajax
     event.preventDefault();
-
-    //Get files from input
+    //Get files from input field array
     var files = $("#file-input").get(0).files;
-
     console.log(files[0].name);
+    //FormData object to send data as key-value pairs inside object
     var formData = new FormData();
-
     if (files.length === 0) {
-        alert('No files selected');
         return console.log("No files selected");
     }
-
     //Append files to FormData
     for (var i = 0; i < files.length; i++) {
         var file = files[i];
+        //append 
         formData.append('data', file, file.name);
-        console.log('data' + 'file: ' + file + 'file.name ' + file.name);
+        console.log('data file: ' + file + 'file.name ' + file.name);
     }
-
     console.log(formData);
-
     uploadFiles(formData);
 });
 
-
+//Uplaod file ajax call
 function uploadFiles(formData) {
-    console.log('Inside file upload');
+    console.log('Inside file upload ajax call');
+    //jQuery ajax call	
     $.ajax({
             url: '/upload',
             type: 'POST',
@@ -72,8 +37,8 @@ function uploadFiles(formData) {
             processData: false,
             contentType: false,
             success: function(data) {
-                console.log(data);
-                console.log("Success");
+                console.log(data.filename + "--" + data.size + "--" + data.type);
+                $("#result").html(JSON.stringify(data));
             },
             fail: function() {
                 console.log("Fail error");

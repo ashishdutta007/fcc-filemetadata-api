@@ -1,15 +1,15 @@
 var express = require('express');
-//Import multer module
+//Import multer file-upload module
 var multer = require('multer');
 var app = express();
 
 console.log('Inside server.js');
 
-//To create diskStorage to store uploaded files
+//Create diskStorage to store uploaded files
 var storage = multer.diskStorage({
     //destination folder to store files
     destination: function(request, file, callback) {
-        callback(null, 'tmp/uploads');
+        callback(null, '.tmp/uploads');
     },
     //filename to be assigned to the uploaded file
     filename: function(request, file, callback) {
@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
     }
 });
 
-//In-memory storage of uploaded files
+//Create In-memory storage of uploaded files
 var memstorage = multer.memoryStorage();
 
 //Create multer middleware with storage options
@@ -27,6 +27,7 @@ var uploadMdlwr = multer({ storage: memstorage });
 //Logging all incoming requests
 app.use('/', function(request, response, next) {
     console.log('Request for file metadata microservice');
+
     request.on('error', function(error) {
         return console.log('Error occurred', error);
     });
@@ -40,8 +41,8 @@ app.use('/', function(request, response, next) {
 //Serve static files from static express server
 app.use('/', express.static('client'));
 
-//post endpoint
-//pass every request to this endpoint via multer middleware
+//Pass every request to POST endpoint via multer middleware
+//.single('data') -- accept single file with name 'data'
 app.post('/upload', uploadMdlwr.single('data'), function(request, response) {
     console.log('Inside file upload middleware');
     request.on('error', function(error) {
@@ -50,8 +51,7 @@ app.post('/upload', uploadMdlwr.single('data'), function(request, response) {
     response.on('error', function(error) {
         return console.log('Error occurred', error);
     });
-    console.log(request.file);
-    //check file availability
+    //Check file availability
     if (request.file) {
         console.log(request.file.originalname);
         response.status(200).json({
